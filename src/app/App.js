@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Users from "../components/users";
 import api from "../api/index";
-import MainTitle from "../components/mainTitle";
-
-// console.log(api.users.fetchAll());
+import LoadingSpinner from "../components/loadingSpinner";
 
 function App() {
-    const [users, setUsers] = useState(api.users.fetchAll());
-    const usersLength = users.length;
+    const [users, setUsers] = useState();
+    // const [isLoading, setIsLoading] = useState(false);
+    const usersLength = users?.length;
+
+    useEffect(() => {
+        api.users.fetchAll().then((data) => setUsers(data));
+        // usersLength === undefined ? setIsLoading(true) : false
+    }, []);
 
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
@@ -23,22 +27,23 @@ function App() {
         );
     };
 
-    return usersLength > 0
-        ? <>
-            <MainTitle length={usersLength} />
-            <Users
-                users={users}
-                onToggleBookMark={handleToggleBookMark}
-                onDelete={handleDelete}
-            />
-        </>
-        : <>
-            <h1>
-                <span className="badge bg-danger">
+    return usersLength === undefined
+        ? <LoadingSpinner/>
+        : usersLength > 0
+            ? <>
+                <Users
+                    users={users}
+                    onToggleBookMark={handleToggleBookMark}
+                    onDelete={handleDelete}
+                />
+            </>
+            : <>
+                <h1>
+                    <span className="badge bg-danger">
                     Никто не тусанет с тобой сегодня
-                </span>
-            </h1>
-        </>;
+                    </span>
+                </h1>
+            </>;
 }
 
 export default App;
