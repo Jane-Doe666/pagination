@@ -1,7 +1,9 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import Users from "../components/users";
 import api from "../api/index";
 import LoadingSpinner from "../components/loadingSpinner";
+
 
 function App() {
     const [users, setUsers] = useState();
@@ -16,6 +18,8 @@ function App() {
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
     };
+
+    console.log(users)
 
     const handleToggleBookMark = (id) => {
         setUsers(

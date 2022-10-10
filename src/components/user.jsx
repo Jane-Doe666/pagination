@@ -1,8 +1,10 @@
+/* eslint-disable */
 import React from "react";
 import Quality from "./quality";
 import Bookmark from "./bookmark";
 
 const User = (props) => {
+    console.log('props User',props)
     return (
         <>
             <tr>
