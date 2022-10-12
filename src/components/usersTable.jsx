@@ -1,22 +1,26 @@
 /* eslint-disable */
 import React from "react";
-
 import PropTypes from "prop-types";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 import BookMark from "./bookmark";
+import QualityList from "./qualityList";
 
-const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, ...rest })=>{
-    console.log('onToggleBookMark',onToggleBookMark)
-    console.log('rest usersTable',rest)
+const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete })=>{
 
     const columns = {
-        name:{iter:"name", name:"Имя"},
-        qualities:{name:"Качества"},
-        profession:{iter:"profession.name", name:"Профессия"},
-        completedMeetings:{iter:"completedMeetings", name:"Встретился, раз"},
-        rate:{iter:"rate", name:"Оценка"},
-        bookmark:{
+        name: {iter:"name", name:"Имя"},
+        qualities: {
+            name:"Качества",
+            component: (props) =>  (
+                <QualityList
+                    qualityes={props.qualities}
+                />
+            )},
+        profession: {iter:"profession.name", name:"Профессия"},
+        completedMeetings: {iter:"completedMeetings", name:"Встретился, раз"},
+        rate: {iter:"rate", name:"Оценка"},
+        bookmark: {
             iter:"bookmark",
             name:"Избранное",
             component: (props) => (
@@ -25,9 +29,17 @@ const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, ...rest 
                     onClick={()=>onToggleBookMark(props._id)}
             />)
         },
-        delete:{component:"delete"}
+        delete: {
+            component: (props) => (
+                <button
+                    className="btn btn-danger"
+                    onClick={() => onDelete(props._id)}
+                >
+                    Delete
+                </button>
+            )
+        }
     }
-
 
     return (
     <table className="table">
@@ -52,4 +64,4 @@ UsersTable.propTypes = {
     selectedSort: PropTypes.object.isRequired
 }
 
-export default UsersTable
+export default UsersTable;

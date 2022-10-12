@@ -9,7 +9,6 @@ import UsersTable from "./usersTable";
 import _ from "lodash";
 
 const Users = ({ users, ...rest }) => {
-
     const pageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions] = useState(api.professions);
@@ -46,7 +45,6 @@ const Users = ({ users, ...rest }) => {
         setCurrentPage(1);
     }, [selectedProf]);
 
-    console.log('Users rest!', rest)
 
     return (
         <div className="d-flex">

@@ -2,7 +2,6 @@
 import React from "react";
 
 const BookMark = (props) => {
-    console.log("props bookmark",props)
     return <button
         className={
             props.status === false
