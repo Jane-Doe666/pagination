@@ -30,12 +30,6 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                     {columns[column].name}
                 </th>
             ))}
-            {/*<th>Качества</th>*/}
-            {/*<th onClick={() => handleSort("profession.name")}>Профессия</th>*/}
-            {/*<th onClick={() => handleSort("completedMeetings")}>Встретился, раз</th>*/}
-            {/*<th onClick={() => handleSort("rate")}>Оценка</th>*/}
-            {/*<th onClick={() => handleSort("bookmark")}>Избранное</th>*/}
-            {/*<th/>*/}
         </tr>
         </thead>)
 };
@@ -46,5 +40,4 @@ TableHeader.prototype = {
     columns: PropTypes.object.isRequired
 
 }
-
 export default TableHeader;
