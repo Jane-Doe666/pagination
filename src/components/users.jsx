@@ -30,8 +30,8 @@ const Users = ({ users, ...rest }) => {
     const filteredUsersLength = filteredUsers.length;
 
     const handleSort = (item)=>{
-        setSortBy(item)
-    }
+        setSortBy(item);
+    };
 
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
 
