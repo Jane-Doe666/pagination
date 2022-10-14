@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from "react";
+import Caret from "./caret";
 import PropTypes from "prop-types";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
@@ -13,7 +14,6 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             onSort({ iter: item, order: "asc" })
         }
     };
-
     return (
         <thead>
         <tr>
@@ -25,9 +25,15 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                             ? () => handleSort(columns[column].iter)
                             : undefined
                     }
+
                     {...{role: columns[column].iter && "button" }}
                 >
                     {columns[column].name}
+                    {
+                        columns[ column ].iter === selectedSort.iter
+                            ? <Caret order={selectedSort.order}/>
+                            : undefined
+                    }
                 </th>
             ))}
         </tr>

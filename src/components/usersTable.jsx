@@ -6,7 +6,6 @@ import QualityList from "./qualityList";
 import Table from "./table";
 
 const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete })=>{
-
     const columns = {
         name: {iter:"name", name:"Имя"},
         qualities: {

@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 const Table = ({ onSort, selectedSort, columns, data }) => {
     return (
         <table className="table">
-        <TableHeader {...{onSort, selectedSort, columns}}/>
+        <TableHeader {...{onSort, selectedSort, columns }}/>
         <TableBody {...{ columns, data }}/>
         </table>
     );

@@ -29,7 +29,7 @@ const Users = ({ users, ...rest }) => {
             : users;
     const filteredUsersLength = filteredUsers.length;
 
-    const handleSort = (item)=>{
+    const handleSort = (item)=> {
         setSortBy(item);
     };
 
@@ -44,7 +44,6 @@ const Users = ({ users, ...rest }) => {
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
-
 
     return (
         <div className="d-flex">
