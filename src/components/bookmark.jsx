@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from "react";
 
 const BookMark = (props) => {
@@ -10,7 +9,7 @@ const BookMark = (props) => {
         }
         onClick={props.onClick}
 
-    />
+    />;
 };
 
 export default BookMark;

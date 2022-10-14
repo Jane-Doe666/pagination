@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import Pagination from "./pagination";
 import { paginate } from "./utilites";
@@ -13,7 +12,7 @@ const Users = ({ users, ...rest }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions] = useState(api.professions);
     const [selectedProf, setSelectedProf] = useState();
-    const [sortBy, setSortBy] = useState({iter:"name", order:"asc"})
+    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
@@ -29,11 +28,11 @@ const Users = ({ users, ...rest }) => {
             : users;
     const filteredUsersLength = filteredUsers.length;
 
-    const handleSort = (item)=> {
+    const handleSort = (item) => {
         setSortBy(item);
     };
 
-    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
+    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
 
     const userCrop = paginate(sortedUsers, currentPage, pageSize);
 

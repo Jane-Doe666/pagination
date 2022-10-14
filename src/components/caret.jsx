@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from "react";
 
 const Caret = ({ order }) => {
@@ -9,9 +8,7 @@ const Caret = ({ order }) => {
                 ? "down-fill"
                 : ""
     );
-    return <i className={classCaret}></i>
+    return <i className={classCaret}></i>;
 };
 
 export default Caret;
-
-

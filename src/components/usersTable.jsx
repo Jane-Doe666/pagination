@@ -1,31 +1,31 @@
-/* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
 import BookMark from "./bookmark";
 import QualityList from "./qualityList";
 import Table from "./table";
 
-const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete })=>{
+const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete }) => {
     const columns = {
-        name: {iter:"name", name:"Имя"},
+        name: { iter: "name", name: "Имя" },
         qualities: {
-            name:"Качества",
-            component: (props) =>  (
+            name: "Качества",
+            component: (props) => (
                 <QualityList
-                    qualityes={props.qualities}
+                    qualities={props.qualities}
                 />
-            )},
-        profession: {iter:"profession.name", name:"Профессия"},
-        completedMeetings: {iter:"completedMeetings", name:"Встретился, раз"},
-        rate: {iter:"rate", name:"Оценка"},
+            )
+        },
+        profession: { iter: "profession.name", name: "Профессия" },
+        completedMeetings: { iter: "completedMeetings", name: "Встретился, раз" },
+        rate: { iter: "rate", name: "Оценка" },
         bookmark: {
-            iter:"bookmark",
-            name:"Избранное",
+            iter: "bookmark",
+            name: "Избранное",
             component: (props) => (
                 <BookMark
                     status={props.bookmark}
-                    onClick={()=>onToggleBookMark(props._id)}
-            />)
+                    onClick={() => onToggleBookMark(props._id)}
+                />)
         },
         delete: {
             component: (props) => (
@@ -37,7 +37,7 @@ const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete
                 </button>
             )
         }
-    }
+    };
 
     return (
         <Table
@@ -46,13 +46,13 @@ const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete
             columns={columns}
             data={userCrop}
         />
-    )
+    );
 };
 
 UsersTable.propTypes = {
     userCrop: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired
-}
+};
 
 export default UsersTable;

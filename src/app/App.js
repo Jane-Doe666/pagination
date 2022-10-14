@@ -1,10 +1,9 @@
-/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import Users from "../components/users";
 import api from "../api/index";
 import LoadingSpinner from "../components/loadingSpinner";
 
-function App() {
+function App () {
     const [users, setUsers] = useState();
     const usersLength = users?.length;
 
@@ -28,13 +27,13 @@ function App() {
 
     return usersLength === undefined
         ? <LoadingSpinner/>
-        :  <>
-                <Users
-                    users={users}
-                    onToggleBookMark={handleToggleBookMark}
-                    onDelete={handleDelete}
-                />
-            </>
+        : <>
+            <Users
+                users={users}
+                onToggleBookMark={handleToggleBookMark}
+                onDelete={handleDelete}
+            />
+        </>;
 }
 
 export default App;

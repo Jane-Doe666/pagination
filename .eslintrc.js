@@ -14,9 +14,7 @@ module.exports = {
         indent: ["error", 4],
         semi: ["warn", "always"],
         "prefer-const": "error",
-        "space-before-function-paren": ["error",
-            { anonymous: "always", named: "never" },
-        ],
+        "space-before-function-paren": ["error", "always"],
         "max-len": ["error", { code: 120 }],
 
         quotes: ["error", "double", { allowTemplateLiterals: true }],
@@ -26,5 +24,6 @@ module.exports = {
         "no-console": "warn",
         "comma-dangle": ["error", "only-multiline"],
         "object-curly-spacing": ["error", "always"],
+        "array-bracket-spacing": ["error", "never"]
     },
 };
