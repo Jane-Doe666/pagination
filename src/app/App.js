@@ -1,39 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Users from "../components/users";
-import api from "../api/index";
-import LoadingSpinner from "../components/loadingSpinner";
+import NavBar from "../components/navbar";
+import { Route } from "react-router-dom";
+import Login from "../components/login";
+import Menu from "../components/menu";
 
 function App () {
-    const [users, setUsers] = useState();
-    const usersLength = users?.length;
-
-    useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data));
-    }, []);
-
-    const handleDelete = (userId) => {
-        setUsers(users.filter((user) => user._id !== userId));
-    };
-
-    const handleToggleBookMark = (id) => {
-        setUsers(
-            users.map((user) =>
-                user._id === id
-                    ? { ...user, bookmark: !user.bookmark }
-                    : { ...user }
-            )
-        );
-    };
-
-    return usersLength === undefined
-        ? <LoadingSpinner/>
-        : <>
-            <Users
-                users={users}
-                onToggleBookMark={handleToggleBookMark}
-                onDelete={handleDelete}
-            />
-        </>;
+    return <>
+        <NavBar/>
+        <Route path="/menu" component={Menu}/>
+        <Route path="/login" component={Login}/>
+        <Route path="/users" component={Users}/>
+    </>;
 }
 
 export default App;

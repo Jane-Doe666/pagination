@@ -6,13 +6,34 @@ import api from "../api/index";
 import MainTitle from "../components/mainTitle";
 import UsersTable from "./usersTable";
 import _ from "lodash";
+import LoadingSpinner from "./loadingSpinner";
 
-const Users = ({ users, ...rest }) => {
+const Users = () => {
     const pageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions] = useState(api.professions);
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+    const [users, setUsers] = useState(api.users);
+    const usersLength = users?.length;
+
+    useEffect(() => {
+        api.users.fetchAll().then((data) => setUsers(data));
+    }, []);
+
+    const handleDelete = (userId) => {
+        setUsers(users.filter((user) => user._id !== userId));
+    };
+
+    const handleToggleBookMark = (id) => {
+        setUsers(
+            users.map((user) =>
+                user._id === id
+                    ? { ...user, bookmark: !user.bookmark }
+                    : { ...user }
+            )
+        );
+    };
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
@@ -26,6 +47,7 @@ const Users = ({ users, ...rest }) => {
         selectedProf
             ? users.filter((user) => user.profession._id === selectedProf._id)
             : users;
+
     const filteredUsersLength = filteredUsers.length;
 
     const handleSort = (item) => {
@@ -44,8 +66,9 @@ const Users = ({ users, ...rest }) => {
         setCurrentPage(1);
     }, [selectedProf]);
 
-    return (
-        <div className="d-flex">
+    return (usersLength === undefined
+        ? <LoadingSpinner/>
+        : <div className="d-flex">
             {professions && (
                 <div className="d-flex flex-column flex-shrink-0 p-3">
                     <GroupList
@@ -64,7 +87,9 @@ const Users = ({ users, ...rest }) => {
             <div className="d-flex flex-column">
                 <MainTitle length={filteredUsersLength}/>
                 <UsersTable
-                    userCrop={userCrop}{...rest}
+                    userCrop={userCrop}
+                    onToggleBookMark={handleToggleBookMark}
+                    onDelete={handleDelete}
                     onSort={handleSort}
                     selectedSort={sortBy}
                 />

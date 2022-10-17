@@ -35,3 +35,13 @@ code {
     align-items: center;
     height: 350px;
 }
+
+.menu a{
+    display: inline-block;
+    padding: 10px 10px;
+}
+
+
+.menu li{
+    display: inline;
+}

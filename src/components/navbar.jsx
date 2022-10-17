@@ -2,9 +2,11 @@ import React from "react";
 
 const NavBar = () => {
     return (
-        <div>
-            <td><a href="/menu">Menu</a></td>
-        </div>
+        <ul className="menu">
+            <li><a href="/menu">Menu</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/users">Users</a></li>
+        </ul>
     );
 };
 
