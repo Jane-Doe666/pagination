@@ -19,9 +19,8 @@ const TableBody = ({ data, columns }) => {
                 <tr key={item._id}>
                     {Object.keys(columns).map((column) => (
                         <td key={column}>
-                            {renderContent(item, column)}
-                        </td>
-                    ))}
+                            {renderContent(item, column)}</td>)
+                    )}
                 </tr>
             ))}
         </tbody>

@@ -3,10 +3,20 @@ import PropTypes from "prop-types";
 import BookMark from "./bookmark";
 import QualityList from "./qualityList";
 import Table from "./table";
+import { Link } from "react-router-dom";
 
 const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete }) => {
     const columns = {
-        name: { iter: "name", name: "Имя" },
+        name: {
+            iter: "name",
+            name: "Имя",
+            component: (props) => (
+                <>
+                    <Link to="/user">{props.name}</Link>
+                    {/* <Route exact path="/user" component={Userpage} /> ??? */}
+                </>
+            )
+        },
         qualities: {
             name: "Качества",
             component: (props) => (
