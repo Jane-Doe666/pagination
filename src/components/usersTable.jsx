@@ -12,7 +12,7 @@ const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete
             name: "Имя",
             component: (props) => (
                 <>
-                    <Link to="/user">{props.name}</Link>
+                    <Link to={`user/${props._id}`}>{props.name}</Link>
                     {/* <Route exact path="/user" component={Userpage} /> ??? */}
                 </>
             )

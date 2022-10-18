@@ -1,17 +1,34 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import api from "../api/index";
+import LoadingSpinner from "./loadingSpinner";
+import Quality from "./quality";
 
 const Userpage = () => {
     const { userId } = useParams();
-    console.log(userId);
-    return <>
-        <h1>userName</h1>
-        <h2>userProf</h2>
-        <h2>userQ</h2>
-        <h2>meeting</h2>
-        <h2>rate</h2>
-        <button>Все пользователи</button>
-    </>;
-};
+    const history = useHistory();
+    const handleBack = () => {
+        history.push("/users");
+    };
+    const [user, setUser] = useState(api.users);
+    useEffect(() => {
+        api.users.getById(userId).then((data) => setUser(data));
+    }, []);
 
+    return (!user.name
+        ? <LoadingSpinner/>
+        : <>
+            <h1>{user.name}</h1>
+            <h2>Профессия: {user.profession.name}</h2>
+            {user.qualities.map(item => <Quality key={item._id} {...item}/>)}
+            <div>completedMeetings: {user.completedMeetings}</div>
+            <h2>Rate: {user.rate}</h2>
+            <button onClick={() => {
+                handleBack();
+            }}
+            >
+                Все пользователи
+            </button>
+        </>);
+};
 export default Userpage;

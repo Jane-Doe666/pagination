@@ -11,7 +11,7 @@ function App () {
         <NavBar/>
         <Route path="/menu" component={Menu}/>
         <Route path="/login" component={Login}/>
-        <Route path="/user/:userId?" component={Userpage} />
+        <Route path="/user/:userId?" render={(props) => <Userpage {...props}/>}/>
         <Route path="/users" component={Users}/>
     </>;
 }
