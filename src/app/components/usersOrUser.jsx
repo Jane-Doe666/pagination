@@ -3,7 +3,7 @@ import UserPage from "./userPage";
 import Users from "../layout/users";
 import { useParams } from "react-router-dom";
 
-const UserOrUsers = () => {
+const UsersOrUser = () => {
     const { userId } = useParams();
 
     return (
@@ -13,4 +13,4 @@ const UserOrUsers = () => {
     );
 };
 
-export default UserOrUsers;
+export default UsersOrUser;
