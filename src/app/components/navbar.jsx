@@ -5,7 +5,7 @@ const NavBar = () => {
         <ul className="menu">
             <li><a href="/menu">Menu</a></li>
             <li><a href="/login">Login</a></li>
-            <li><a href="/users">Users</a></li>
+            <li><a href="/usersListOrUser">Users</a></li>
         </ul>
     );
 };

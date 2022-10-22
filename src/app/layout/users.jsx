@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "./pagination";
-import { paginate } from "./utilites";
-import GroupList from "./groupList";
-import api from "../api/index";
+import Pagination from "../components/pagination";
+import { paginate } from "../utils/utilites";
+import GroupList from "../components/groupList";
+import api from "../../api";
 import MainTitle from "../components/mainTitle";
-import UsersTable from "./usersTable";
+import UsersTable from "../components/usersTable";
 import _ from "lodash";
-import LoadingSpinner from "./loadingSpinner";
+import LoadingSpinner from "../components/loadingSpinner";
 
 const Users = () => {
     const pageSize = 8;

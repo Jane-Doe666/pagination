@@ -45,3 +45,19 @@ code {
 .menu li{
     display: inline;
 }
+
+.main {
+    color: darkred;
+    font-family: verdana;
+    padding: 10px 10px;
+}
+
+.menufirst {
+    font-family: verdana;
+    padding: 10px 10px;
+}
+
+.menufirstmain {
+    font-family: verdana;
+    padding: 10px 50px;
+}

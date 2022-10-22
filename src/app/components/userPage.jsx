@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import api from "../api/index";
+import api from "../../api";
 import LoadingSpinner from "./loadingSpinner";
 import Quality from "./quality";
 
-const Userpage = () => {
+const UserPage = () => {
     const { userId } = useParams();
     const history = useHistory();
     const handleBack = () => {
-        history.push("/users");
+        history.push("/usersListOrUser");
     };
     const [user, setUser] = useState(api.users);
     useEffect(() => {
@@ -31,4 +31,4 @@ const Userpage = () => {
             </button>
         </>);
 };
-export default Userpage;
+export default UserPage;
