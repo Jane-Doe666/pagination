@@ -1,6 +1,6 @@
 import React from "react";
-import UserPage from "./userPage";
-import Users from "../layout/users";
+import UserPage from "../components/userPage";
+import Users from "../components/users";
 import { useParams } from "react-router-dom";
 
 const UsersOrUser = () => {
@@ -9,7 +9,7 @@ const UsersOrUser = () => {
     return (
         userId
             ? <UserPage userId = {userId}/>
-            : <Users userId = {userId}/>
+            : <Users />
     );
 };
 

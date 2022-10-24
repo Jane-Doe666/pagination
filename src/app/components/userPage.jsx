@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import api from "../../api";
 import LoadingSpinner from "./loadingSpinner";
 import Quality from "./quality";
 
-const UserPage = () => {
-    const { userId } = useParams();
+const UserPage = ({ userId }) => {
     const history = useHistory();
     const handleBack = () => {
         history.push("/usersListOrUser");
     };
-    const [user, setUser] = useState(api.users);
+    const [user, setUser] = useState();
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     }, []);
 
-    return (!user.name
+    return (!user
         ? <LoadingSpinner/>
         : <>
             <h1>{user.name}</h1>
