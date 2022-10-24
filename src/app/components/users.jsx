@@ -106,6 +106,6 @@ const Users = () => {
             </div>
         </div>
         );
-    } else { <LoadingSpinner/>; }
+    } else { return <LoadingSpinner/>; }
 };
 export default Users;
