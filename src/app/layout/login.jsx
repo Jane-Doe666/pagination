@@ -62,30 +62,37 @@ const Login = () => {
     const isValid = Object.keys(error).length === 0;
     console.log("isValid", isValid);
 
-    return (<form onSubmit={handleSubmit}>
-        <TextField
-            label="E-mail"
-            id="email"
-            name="email"
-            onChange={handleChange}
-            value={data.email}
-            error={error.email}
+    return (<div className="container mt-5">
+        <div className="row">
+            <div className="col-md-6 offset-md-3 shadow p-4">
+                <h3 className="mb-4">Login</h3>
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        label="E-mail"
+                        id="email"
+                        name="email"
+                        onChange={handleChange}
+                        value={data.email}
+                        error={error.email}
 
-        />
-        <TextField
-            label="Password"
-            id="password"
-            type="password"
-            name="password"
-            onChange={handleChange}
-            value={data.password}
-            error={error.password}
+                    />
+                    <TextField
+                        label="Password"
+                        id="password"
+                        type="password"
+                        name="password"
+                        onChange={handleChange}
+                        value={data.password}
+                        error={error.password}
 
-        />
-        <button type="submit" disabled={!isValid}>
+                    />
+                    <button type="submit" disabled={!isValid} className="btn btn-primary w-100 m">
             Submit
-        </button>
-    </form>);
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>);
 };
 
 export default Login;
