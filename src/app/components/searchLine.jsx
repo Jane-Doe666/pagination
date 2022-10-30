@@ -1,11 +1,12 @@
 import React from "react";
 
-const SearchLine = ({ onChange }) => {
+const SearchLine = ({ value, onChange }) => {
     return (
         <nav className="navbar bg-light">
             <form className="container-fluid">
                 <div className="input-group">
                     <input
+                        value={value}
                         type="text"
                         className="form-control"
                         placeholder="Username"

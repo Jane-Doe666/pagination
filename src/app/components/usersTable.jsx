@@ -13,7 +13,6 @@ const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete
             component: (props) => (
                 <>
                     <Link to={`usersListOrUser/${props._id}`}>{props.name}</Link>
-                    {/* <Route exact path="/user" component={UserPage} /> ??? */}
                 </>
             )
         },

@@ -100,7 +100,10 @@ const Users = () => {
             )}
             <div className="d-flex flex-column">
                 <MainTitle length={filteredUsersLength}/>
-                <SearchLine onChange={handleInput}/>
+                <SearchLine
+                    value={inputLine}
+                    onChange={handleInput}
+                />
                 <UsersTable
                     userCrop={userCrop}
                     onToggleBookMark={handleToggleBookMark}
