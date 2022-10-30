@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./pagination";
-import { paginate } from "../utils/utilites";
+import { paginate, findUserByInput } from "../utils/utilites";
 import GroupList from "./groupList";
 import api from "../../api";
 import MainTitle from "./mainTitle";
 import UsersTable from "./usersTable";
 import _ from "lodash";
 import LoadingSpinner from "./loadingSpinner";
+import SearchLine from "./searchLine";
 
 const Users = () => {
     const pageSize = 8;
@@ -15,6 +16,7 @@ const Users = () => {
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
     const [users, setUsers] = useState();
+    const [inputLine, setInputLine] = useState("");
 
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
@@ -44,6 +46,12 @@ const Users = () => {
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
+        setInputLine("");
+    };
+
+    const handleInput = ({ target }) => {
+        setInputLine(target.value);
+        setSelectedProf();
     };
 
     const handlePageChange = (pageIndex) => {
@@ -51,10 +59,18 @@ const Users = () => {
     };
 
     if (users) {
+        const clearFilter = () => {
+            setSelectedProf();
+        };
+
+        const getUserByInput = findUserByInput(users, inputLine);
+
         const filteredUsers =
             selectedProf
                 ? users.filter((user) => JSON.stringify(user.profession) === JSON.stringify(selectedProf))
-                : users;
+                : inputLine
+                    ? getUserByInput
+                    : users;
 
         const filteredUsersLength = filteredUsers.length;
 
@@ -65,10 +81,6 @@ const Users = () => {
         const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
 
         const userCrop = paginate(sortedUsers, currentPage, pageSize);
-
-        const clearFilter = () => {
-            setSelectedProf();
-        };
 
         return (<div className="d-flex">
             {professions && (
@@ -88,6 +100,7 @@ const Users = () => {
             )}
             <div className="d-flex flex-column">
                 <MainTitle length={filteredUsersLength}/>
+                <SearchLine onChange={handleInput}/>
                 <UsersTable
                     userCrop={userCrop}
                     onToggleBookMark={handleToggleBookMark}

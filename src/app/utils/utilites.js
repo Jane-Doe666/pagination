@@ -8,3 +8,10 @@ export const renderPersonLetterEnd = (qtyOfPerson, end1, end2) =>
     ![12, 13, 14].includes(qtyOfPerson % 100)
         ? end2
         : end1;
+
+export const findUserByInput = (users, input) => {
+    const inpRegEx = new RegExp(input, "i");
+    const filterBySearchLine = users.filter(item => item.name.match(inpRegEx));
+
+    return input ? filterBySearchLine : "";
+};
