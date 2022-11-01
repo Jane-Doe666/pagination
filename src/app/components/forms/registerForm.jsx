@@ -3,14 +3,15 @@ import { validator } from "../../utils/validator";
 import { isRequired } from "../../utils/validateRules";
 import TextField from "./textField";
 import api from "../../../api";
+import SelectField from "./selectField";
 
 const RegisterForm = () => {
-    const [data, setData] = useState({ email: "", password: "", select: "" });
+    const [data, setData] = useState({ email: "", password: "", profession: "" });
     const [error, setErrors] = useState({});
-    const [selectedProf, setSelectedProf] = useState();
+    const [professions, setProfessions] = useState();
 
     useEffect(() => {
-        api.professions.fetchAll().then((data) => setSelectedProf(data));
+        api.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
 
     const validatorConfig = {
@@ -37,7 +38,12 @@ const RegisterForm = () => {
                 message: "Пароль должен содержать минимум 8 знаков",
                 value: 8
             },
-        }
+        },
+        profession: {
+            isRequired: {
+                message: "Обязательно выбирите ваше профессию"
+            }
+        },
     };
 
     useEffect(() => {
@@ -84,38 +90,14 @@ const RegisterForm = () => {
                 error={error.password}
 
             />
-            <div className="mb-4">
-                <label htmlFor="validationCustom04" className="form-label">State</label>
-                <select
-                    className="form-select"
-                    id="validationCustom04"
-                    name="profession"
-                    value={data.profession}
-                    onChange={handleChange}
-                >
-                    <option
-                        selected={data.profession === ""}
-                        disabled
-                        value=""
-                    >
-                        Choose...
-                    </option>
-                    {selectedProf &&
-                        Object.keys(selectedProf).map(
-                            (prof) =>
-                                <option
-                                    key={selectedProf[prof]._id}
-                                    // selected={selectedProf[prof]._id === data.profession}
-                                    value={selectedProf[prof]._id}
-                                >
-                                    {selectedProf[prof].name}
-                                </option>
-                        )}
-                </select>
-                <div className="invalid-feedback">
-                    Please select a valid state.
-                </div>
-            </div>
+            <SelectField
+                label="Выберете ваше профессию"
+                defaultOption="Choose..."
+                options={professions}
+                onChange={handleChange}
+                value={data.professions}
+                error={error.profession}
+            />
             <button type="submit"
                 disabled={!isValid}
                 className="btn btn-primary w-100 m"
