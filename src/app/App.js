@@ -9,7 +9,7 @@ function App () {
     return <>
         <NavBar/>
         <Route exact path="/" component={Menu}/>
-        <Route path="/login" component={Login}/>
+        <Route path="/login/:type?" component={Login}/>
         <Route path="/usersListOrUser/:userId?" component={Users}/>
     </>;
 }

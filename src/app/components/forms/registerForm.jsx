@@ -3,7 +3,7 @@ import { validator } from "../../utils/validator";
 import { isRequired } from "../../utils/validateRules";
 import TextField from "./textField";
 
-const LoginForms = () => {
+const RegisterForm = () => {
     const [data, setData] = useState({ email: "", password: "" });
     const [error, setErrors] = useState({});
 
@@ -79,10 +79,11 @@ const LoginForms = () => {
 
             />
             <button type="submit" disabled={!isValid} className="btn btn-primary w-100 m">
-                        Submit
+                    Submit
             </button>
         </form>
     </>
     );
 };
-export default LoginForms;
+
+export default RegisterForm;
