@@ -1,5 +1,5 @@
 import React from "react";
-import { renderPersonLetterEnd } from "../utils/utilites";
+import { renderPersonLetterEnd } from "../../utils/utilites";
 
 const MainTitle = ({ length }) => {
     return length > 0

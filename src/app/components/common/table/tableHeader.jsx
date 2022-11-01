@@ -1,5 +1,5 @@
 import React from "react";
-import Caret from "./caret";
+import Caret from "../caret";
 import PropTypes from "prop-types";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {

@@ -1,16 +1,16 @@
 import React from "react";
-import NavBar from "./components/navbar";
+import NavBar from "./components/ui/navbar";
 import { Route } from "react-router-dom";
 import Login from "./layout/login";
 import Menu from "./layout/menu";
-import UsersOrUser from "./layout/usersOrUser";
+import Users from "./layout/users";
 
 function App () {
     return <>
         <NavBar/>
         <Route exact path="/" component={Menu}/>
         <Route path="/login" component={Login}/>
-        <Route path="/usersListOrUser/:userId?" component={UsersOrUser}/>
+        <Route path="/usersListOrUser/:userId?" component={Users}/>
     </>;
 }
 

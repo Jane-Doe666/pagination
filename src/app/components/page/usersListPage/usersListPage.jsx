@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "./pagination";
-import { paginate, findUserByInput } from "../utils/utilites";
-import GroupList from "./groupList";
-import api from "../../api";
-import MainTitle from "./mainTitle";
-import UsersTable from "./usersTable";
+import Pagination from "../../common/pagination";
+import { paginate, findUserByInput } from "../../../utils/utilites";
+import GroupList from "../../common/groupList";
+import api from "../../../../api";
+import MainTitle from "../../ui/mainTitle";
+import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
-import LoadingSpinner from "./loadingSpinner";
-import SearchLine from "./searchLine";
+import LoadingSpinner from "../../common/loadingSpinner";
+import SearchLine from "../../forms/searchLine";
 
-const Users = () => {
+const UsersListPage = () => {
     const pageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
@@ -124,4 +124,4 @@ const Users = () => {
         );
     } else { return <LoadingSpinner/>; }
 };
-export default Users;
+export default UsersListPage;

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import api from "../../api";
-import LoadingSpinner from "./loadingSpinner";
-import Quality from "./quality";
+import api from "../../../../api";
+import LoadingSpinner from "../../common/loadingSpinner";
+import Quality from "../../ui/qualities/quality";
 
 const UserPage = ({ userId }) => {
     const history = useHistory();
