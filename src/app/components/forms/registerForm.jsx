@@ -2,10 +2,16 @@ import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import { isRequired } from "../../utils/validateRules";
 import TextField from "./textField";
+import api from "../../../api";
 
 const RegisterForm = () => {
-    const [data, setData] = useState({ email: "", password: "" });
+    const [data, setData] = useState({ email: "", password: "", select: "" });
     const [error, setErrors] = useState({});
+    const [selectedProf, setSelectedProf] = useState();
+
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setSelectedProf(data));
+    }, []);
 
     const validatorConfig = {
         email: {
@@ -78,7 +84,42 @@ const RegisterForm = () => {
                 error={error.password}
 
             />
-            <button type="submit" disabled={!isValid} className="btn btn-primary w-100 m">
+            <div className="mb-4">
+                <label htmlFor="validationCustom04" className="form-label">State</label>
+                <select
+                    className="form-select"
+                    id="validationCustom04"
+                    name="profession"
+                    value={data.profession}
+                    onChange={handleChange}
+                >
+                    <option
+                        selected={data.profession === ""}
+                        disabled
+                        value=""
+                    >
+                        Choose...
+                    </option>
+                    {selectedProf &&
+                        Object.keys(selectedProf).map(
+                            (prof) =>
+                                <option
+                                    key={selectedProf[prof]._id}
+                                    // selected={selectedProf[prof]._id === data.profession}
+                                    value={selectedProf[prof]._id}
+                                >
+                                    {selectedProf[prof].name}
+                                </option>
+                        )}
+                </select>
+                <div className="invalid-feedback">
+                    Please select a valid state.
+                </div>
+            </div>
+            <button type="submit"
+                disabled={!isValid}
+                className="btn btn-primary w-100 m"
+            >
                     Submit
             </button>
         </form>
