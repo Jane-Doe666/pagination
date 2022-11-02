@@ -158,7 +158,15 @@ const getById = (id) =>
         }, 1000);
     });
 
+const getByQual = () =>
+    new Promise((resolve) => {
+        window.setTimeout(function () {
+            resolve(qualities);
+        }, 2000);
+    });
+
 export default {
     fetchAll,
-    getById
+    getById,
+    getByQual,
 };

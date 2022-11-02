@@ -4,14 +4,20 @@ import { isRequired } from "../../utils/validateRules";
 import TextField from "./textField";
 import api from "../../../api";
 import SelectField from "./selectField";
+import RadioField from "./radioField";
+import MyltiSelect from "./myltiSelect";
 
 const RegisterForm = () => {
-    const [data, setData] = useState({ email: "", password: "", profession: "" });
+    const [data, setData] = useState({
+        email: "", password: "", profession: "", sex: "male", qualities: []
+    });
     const [error, setErrors] = useState({});
-    const [professions, setProfessions] = useState();
+    const [professions, setProfessions] = useState([]);
+    const [qualities, setQualityes] = useState({});
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
+        api.users.getByQual().then((data) => setQualityes(data));
     }, []);
 
     const validatorConfig = {
@@ -56,7 +62,7 @@ const RegisterForm = () => {
         return Object.keys(errors).length === 0;
     };
 
-    const handleChange = ({ target }) => {
+    const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -97,6 +103,23 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 value={data.professions}
                 error={error.profession}
+            />
+            <RadioField
+                options={[
+                    { name: "Male", value: "male" },
+                    { name: "Female", value: "female" },
+                    { name: "Other", value: "other" },
+                ]}
+                value={data.sex}
+                name="sex"
+                onChange={handleChange}
+                label="Ваш пол : "
+            />
+            <MyltiSelect
+                options={qualities}
+                onChange={handleChange}
+                name="qualities"
+                label="Качества для вашего выбора : "
             />
             <button type="submit"
                 disabled={!isValid}
