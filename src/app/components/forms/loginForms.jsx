@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import { isRequired } from "../../utils/validateRules";
 import TextField from "./textField";
+import CheckBoxField from "./checkBoxField";
 
 const LoginForms = () => {
-    const [data, setData] = useState({ email: "", password: "" });
+    const [data, setData] = useState({ email: "", password: "", stayOn: false });
     const [error, setErrors] = useState({});
 
     const validatorConfig = {
@@ -31,7 +32,12 @@ const LoginForms = () => {
                 message: "Пароль должен содержать минимум 8 знаков",
                 value: 8
             },
-        }
+        },
+        stayOn: {
+            isRequired: {
+                message: "Вы должны оставаться в системе"
+            }
+        },
     };
 
     useEffect(() => {
@@ -44,7 +50,7 @@ const LoginForms = () => {
         return Object.keys(errors).length === 0;
     };
 
-    const handleChange = ({ target }) => {
+    const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -78,7 +84,19 @@ const LoginForms = () => {
                 error={error.password}
 
             />
-            <button type="submit" disabled={!isValid} className="btn btn-primary w-100 m">
+            <CheckBoxField
+                value={data.stayOn}
+                onChange={handleChange}
+                name="stayOn"
+                error={error.stayOn}
+            >
+                <a>Оставаться в системе</a>
+            </CheckBoxField>
+            <button
+                type="submit"
+                disabled={!isValid}
+                className="btn btn-primary w-100 m"
+            >
                         Submit
             </button>
         </form>
