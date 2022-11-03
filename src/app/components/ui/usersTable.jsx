@@ -12,7 +12,7 @@ const UsersTable = ({ userCrop, onSort, selectedSort, onToggleBookMark, onDelete
             name: "Имя",
             component: (props) => (
                 <>
-                    <Link to={`usersListOrUser/${props._id}`}>{props.name}</Link>
+                    <Link to={`users/${props._id}`}>{props.name}</Link>
                 </>
             )
         },

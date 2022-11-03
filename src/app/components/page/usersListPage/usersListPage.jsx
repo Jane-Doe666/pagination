@@ -123,6 +123,6 @@ const UsersListPage = () => {
             </div>
         </div>
         );
-    } else { return ""; }
+    } else { return <LoadingSpinner/>; }
 };
 export default UsersListPage;
