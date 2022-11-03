@@ -5,10 +5,9 @@ import { useParams } from "react-router-dom";
 
 const Users = () => {
     const { userId } = useParams();
-
     return (
         userId
-            ? <UserPage userId = {userId}/>
+            ? <UserPage userId = {userId} />
             : <UsersListPage />
     );
 };

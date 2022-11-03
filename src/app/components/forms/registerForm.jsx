@@ -105,6 +105,7 @@ const RegisterForm = () => {
             <SelectField
                 label="Выберете ваше профессию"
                 defaultOption="Choose..."
+                name="professions"
                 options={professions}
                 onChange={handleChange}
                 value={data.professions}
@@ -124,6 +125,7 @@ const RegisterForm = () => {
             <MyltiSelect
                 options={qualities}
                 onChange={handleChange}
+                defaultValue={data.qualities}
                 name="qualities"
                 label="Качества для вашего выбора : "
             />

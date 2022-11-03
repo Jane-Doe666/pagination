@@ -10,7 +10,7 @@ function App () {
         <NavBar/>
         <Route exact path="/" component={Menu}/>
         <Route path="/login/:type?" component={Login}/>
-        <Route path="/usersListOrUser/:userId?" component={Users}/>
+        <Route path="/usersListOrUser/:userId?/:edit?" component={Users}/>
     </>;
 }
 

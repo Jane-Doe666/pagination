@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import Pagination from "../../common/pagination";
 import { paginate, findUserByInput } from "../../../utils/utilites";
@@ -122,6 +123,6 @@ const UsersListPage = () => {
             </div>
         </div>
         );
-    } else { return <LoadingSpinner/>; }
+    } else { return ""; }
 };
 export default UsersListPage;

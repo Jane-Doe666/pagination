@@ -1,6 +1,6 @@
 import React from "react";
 
-const SelectField = ({ label, value, onChange, defaultOption, options, error }) => {
+const SelectField = ({ label, value, onChange, defaultOption, options, error, name }) => {
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };
@@ -9,30 +9,32 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error }) 
     };
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map(item =>
-            ({ name: options[item].name, id: options[item]._id })) // name:item
+            ({ name: options[item].name, id: options[item]._id }))
         : options;
 
     return (
         <div className="mb-4">
-            <label htmlFor="validationCustom04" className="form-label">
+            <label htmlFor={name} className="form-label">
                 {label}
             </label>
             <select
                 className={getInputClasses()}
-                id="validationCustom04"
-                name="profession"
+                id={name}
+                name={name}
                 value={value}
                 onChange={handleChange}
             >
-                <option value=""> {defaultOption} </option>
-                {
-                    optionsArray && optionsArray.map(option =>
-                        <option
+                <option value="">
+                    {defaultOption}
+                </option>
+                {optionsArray &&
+                    optionsArray.map((option) =>
+                        (<option
                             key={option._id}
                             value={option._id}
                         >
                             {option.name}
-                        </option>)
+                        </option>))
                 }
             </select>
             {error && <div className="invalid-feedback">
