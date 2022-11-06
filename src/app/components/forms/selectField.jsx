@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const SelectField = ({ label, value, onChange, defaultOption, options, error, name }) => {
     const handleChange = ({ target }) => {
@@ -30,7 +31,7 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
                 {optionsArray &&
                     optionsArray.map((option) =>
                         (<option
-                            key={option._id}
+                            key={option._id + "" + option.name}
                             value={option._id}
                         >
                             {option.name}
@@ -42,6 +43,17 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
             </div>}
         </div>
     );
+};
+
+SelectField.propTypes = {
+    label: PropTypes.string,
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+    defaultOption: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
+    options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    error: PropTypes.string,
+    name: PropTypes.string,
+
 };
 
 export default SelectField;

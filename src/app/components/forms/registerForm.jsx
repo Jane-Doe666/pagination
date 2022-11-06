@@ -68,10 +68,10 @@ const RegisterForm = () => {
         return Object.keys(errors).length === 0;
     };
 
-    const handleChange = (target) => {
+    const handleChange = ({ name, value }) => {
         setData((prevState) => ({
             ...prevState,
-            [target.name]: target.value
+            [name]: value
         }));
     };
 
@@ -90,7 +90,6 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 value={data.email}
                 error={error.email}
-
             />
             <TextField
                 label="Password"
@@ -100,15 +99,14 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 value={data.password}
                 error={error.password}
-
             />
             <SelectField
                 label="Выберете ваше профессию"
                 defaultOption="Choose..."
-                name="professions"
+                name="profession"
                 options={professions}
                 onChange={handleChange}
-                value={data.professions}
+                value={data.profession}
                 error={error.profession}
             />
             <RadioField
@@ -147,5 +145,4 @@ const RegisterForm = () => {
     </>
     );
 };
-
 export default RegisterForm;

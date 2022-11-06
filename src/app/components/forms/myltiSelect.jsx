@@ -15,6 +15,14 @@ const MyltiSelect = ({ options, onChange, name, label, defaultValue }) => {
         onChange({ name, value });
     };
 
+    const defaultList =
+        Array.isArray(defaultValue) && typeof defaultValue === "object"
+            ? Object.keys(defaultValue).map((item) => ({
+                label: defaultValue[item].name,
+                value: defaultValue[item]._id
+            }))
+            : defaultValue;
+
     return (
         <div className="mb-4">
             <label htmlFor="validationCustom04" className="form-label">
@@ -23,7 +31,7 @@ const MyltiSelect = ({ options, onChange, name, label, defaultValue }) => {
             <Select
                 closeMenuOnSelect={false}
                 isMulti
-                defaultValue={defaultValue}
+                defaultValue={defaultList}
                 options={arrayQality}
                 className="basic-multi-select"
                 classNamePrefix="select"
@@ -39,5 +47,6 @@ MyltiSelect.propTypes = {
     onChange: PropTypes.func,
     name: PropTypes.string,
     label: PropTypes.string,
+    defaultValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
 };
 export default MyltiSelect;
