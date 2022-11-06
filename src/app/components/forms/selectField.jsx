@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 
 const SelectField = ({ label, value, onChange, defaultOption, options, error, name }) => {
     const handleChange = ({ target }) => {
-        onChange({ name: target.name, value: target.value });
+        onChange({ name: target.name, value: target.value }); // value-id
     };
     const getInputClasses = () => {
         return "form-select" + (error ? " is-invalid" : "");
     };
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map(item =>
-            ({ name: options[item].name, id: options[item]._id }))
+            ({ name: options[item].name, value: options[item]._id }))
         : options;
 
     return (
@@ -29,10 +29,8 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
                     {defaultOption}
                 </option>
                 {optionsArray &&
-                    optionsArray.map((option) =>
-                        (<option
-                            key={option._id + "" + option.name}
-                            value={option._id}
+                    optionsArray.map((option) => (
+                        <option value={option._id} key={option.value + option._id}
                         >
                             {option.name}
                         </option>))

@@ -5,7 +5,7 @@ import TextField from "./textField";
 import api from "../../../api";
 import SelectField from "./selectField";
 import RadioField from "./radioField";
-import MyltiSelect from "./myltiSelect";
+import MultiSelect from "./multiSelect";
 import CheckBoxField from "./checkBoxField";
 
 const RegisterForm = () => {
@@ -68,10 +68,11 @@ const RegisterForm = () => {
         return Object.keys(errors).length === 0;
     };
 
-    const handleChange = ({ name, value }) => {
+    const handleChange = (target) => {
+        console.log(target);
         setData((prevState) => ({
             ...prevState,
-            [name]: value
+            [target.name]: target.value
         }));
     };
 
@@ -120,7 +121,7 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 label="Ваш пол : "
             />
-            <MyltiSelect
+            <MultiSelect
                 options={qualities}
                 onChange={handleChange}
                 defaultValue={data.qualities}

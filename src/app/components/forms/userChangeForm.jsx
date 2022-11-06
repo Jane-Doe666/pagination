@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TextField from "./textField";
 import SelectField from "./selectField";
-import MyltiSelect from "./myltiSelect";
+import MultiSelect from "./multiSelect";
 import api from "../../../api";
 import LoadingSpinner from "../common/loadingSpinner";
 import RadioField from "./radioField";
@@ -12,18 +12,17 @@ const UserChangeForm = ({ userId }) => {
     const [user, setUser] = useState();
     const [professions, setProfessions] = useState([]);
     const [qualities, setQualityes] = useState([]);
-    const [defaultQual, setDefaultQual] = useState();
 
     useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
         api.users.getById(userId).then((data) => setUser(data));
-        api.users.getById(userId).then((data) => setDefaultQual(data.qualities));
+        api.professions.fetchAll().then((data) => setProfessions(data));
         api.users.getByQual().then((data) => setQualityes(data));
     }, []
     );
 
     const handleSubmit = () => {
-        api.users.update(userId, user).then(history.push(`/users/${userId}`));
+        api.users.update(userId, user)
+            .then(history.push(`/users/${userId}`));
     };
 
     const handleChange = (target) => {
@@ -39,23 +38,26 @@ const UserChangeForm = ({ userId }) => {
         : <div className="mb-4">
             <form onSubmit={handleSubmit}>
                 <TextField
+                    id="name"
                     label="Имя"
                     name="name"
                     value={user.name}
                     onChange={handleChange}
                 />
                 <TextField
+                    id="email"
                     label="Электронная почта"
                     name="email"
                     value={user.email}
                     onChange={handleChange}
                 />
                 <SelectField
+                    id="profession"
                     label="Выбери свою профессию"
                     name="profession"
                     options={professions}
                     onChange={handleChange}
-                    defaultOption={user.profession.name}
+                    value={user.profession.name}
                 />
                 <RadioField
                     options={[
@@ -68,11 +70,11 @@ const UserChangeForm = ({ userId }) => {
                     onChange={handleChange}
                     label="Ваш пол : "
                 />
-                <MyltiSelect
+                <MultiSelect
                     label="Выберите ваши качества"
                     name="quality"
-                    value
-                    defaultValue={defaultQual}
+                    value=""
+                    defaultValue={user.qualities}
                     options={qualities}
                     onChange={handleChange}
                 />

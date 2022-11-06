@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
 
-const MyltiSelect = ({ options, onChange, name, label, defaultValue }) => {
+const MultiSelect = ({ options, onChange, name, label, defaultValue }) => {
     const arrayQality =
         !Array.isArray(options) && typeof options === "object"
             ? Object.keys(options).map((optionName) => ({
@@ -14,6 +14,9 @@ const MyltiSelect = ({ options, onChange, name, label, defaultValue }) => {
     const handleChange = (value) => {
         onChange({ name, value });
     };
+
+    console.log(defaultValue);
+    console.log(typeof defaultValue);
 
     const defaultList =
         Array.isArray(defaultValue) && typeof defaultValue === "object"
@@ -42,11 +45,11 @@ const MyltiSelect = ({ options, onChange, name, label, defaultValue }) => {
     );
 };
 
-MyltiSelect.propTypes = {
+MultiSelect.propTypes = {
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     onChange: PropTypes.func,
     name: PropTypes.string,
     label: PropTypes.string,
     defaultValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
 };
-export default MyltiSelect;
+export default MultiSelect;
