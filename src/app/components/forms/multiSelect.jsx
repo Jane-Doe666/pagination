@@ -11,21 +11,6 @@ const MultiSelect = ({ options, onChange, name, label, defaultValue }) => {
             }))
             : options;
 
-    const handleChange = (value) => {
-        onChange({ name, value });
-    };
-
-    console.log(defaultValue);
-    console.log(typeof defaultValue);
-
-    const defaultList =
-        Array.isArray(defaultValue) && typeof defaultValue === "object"
-            ? Object.keys(defaultValue).map((item) => ({
-                label: defaultValue[item].name,
-                value: defaultValue[item]._id
-            }))
-            : defaultValue;
-
     return (
         <div className="mb-4">
             <label htmlFor="validationCustom04" className="form-label">
@@ -34,11 +19,11 @@ const MultiSelect = ({ options, onChange, name, label, defaultValue }) => {
             <Select
                 closeMenuOnSelect={false}
                 isMulti
-                defaultValue={defaultList}
+                defaultValue={defaultValue}
                 options={arrayQality}
                 className="basic-multi-select"
                 classNamePrefix="select"
-                onChange={handleChange}
+                onChange={onChange}
                 name={name}
             />
         </div>

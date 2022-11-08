@@ -12,21 +12,86 @@ const UserChangeForm = ({ userId }) => {
     const [user, setUser] = useState();
     const [professions, setProfessions] = useState([]);
     const [qualities, setQualityes] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const transformData = (data) => {
+        return data.map(qual => ({ label: qual.name, value: qual._id }));
+    };
+
+    const getProfessionById = id => {
+        for (const prof of professions) {
+            if (prof.value === id) {
+                return {
+                    _id: prof.value,
+                    name: prof.label,
+                };
+            }
+        }
+    };
+    const getQualities = elements => {
+        const qualitiesArray = [];
+        for (const elem of elements) {
+            for (const quality in qualities) {
+                if (elem.value === qualities[quality].value) {
+                    qualitiesArray.push({
+                        _id: qualities[quality].value,
+                        name: qualities[quality].label,
+                        color: qualities[quality].color,
+                    });
+                }
+            }
+        }
+        return qualitiesArray;
+    };
 
     useEffect(() => {
-        api.users.getById(userId).then((data) => setUser(data));
-        api.professions.fetchAll().then((data) => setProfessions(data));
-        api.users.getByQual().then((data) => setQualityes(data));
+        setIsLoading(true);
+        api.users.getById(userId).then(({ profession, qualities, ...data }) => setUser({
+            ...data,
+            profession: profession._id,
+            qualities: transformData(qualities)
+        }));
     }, []
     );
 
-    const handleSubmit = () => {
-        api.users.update(userId, user)
-            .then(history.push(`/users/${userId}`));
+    useEffect(() => {
+        api.users.getByQual().then((data) => {
+            const qualitiesList = Object.keys(data).map(optionName => ({
+                value: data[optionName]._id,
+                label: data[optionName].name,
+                color: data[optionName].color
+            }));
+            return setQualityes(qualitiesList);
+        });
+    }, []);
+
+    useEffect(() => {
+        api.professions.fetchAll().then(data => {
+            const profList = Object.keys(data).map(prof => ({
+                name: profList[prof].name, value: profList[prof]._id
+            }));
+            return setProfessions(profList);
+        });
+    }, []);
+
+    console.log(user);
+
+    useEffect(() => {
+        if (user) setIsLoading(false);
+    }, [user]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const { profession, qualities } = user;
+        api.users.update(userId, {
+            ...user,
+            profession: getProfessionById(profession),
+            qualities: getQualities(qualities),
+        })
+            .then(user => history.push(`/users/${userId}`));
     };
 
     const handleChange = (target) => {
-        console.log(target);
+        console.log("target", target);
         setUser((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -52,12 +117,12 @@ const UserChangeForm = ({ userId }) => {
                     onChange={handleChange}
                 />
                 <SelectField
-                    id="profession"
                     label="Выбери свою профессию"
+                    defaultOption="Choose..."
                     name="profession"
                     options={professions}
                     onChange={handleChange}
-                    value={user.profession.name}
+                    value={user.profession}
                 />
                 <RadioField
                     options={[
@@ -71,12 +136,11 @@ const UserChangeForm = ({ userId }) => {
                     label="Ваш пол : "
                 />
                 <MultiSelect
-                    label="Выберите ваши качества"
-                    name="quality"
-                    value=""
-                    defaultValue={user.qualities}
                     options={qualities}
                     onChange={handleChange}
+                    defaultValue={user.qualities }
+                    name="qualities"
+                    label="Выберите ваши качества"
                 />
                 <button className="btn btn-primary w-100 m"
                     onChange={handleSubmit}
