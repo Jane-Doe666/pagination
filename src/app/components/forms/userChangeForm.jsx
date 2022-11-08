@@ -6,123 +6,159 @@ import api from "../../../api";
 import LoadingSpinner from "../common/loadingSpinner";
 import RadioField from "./radioField";
 import { useHistory } from "react-router-dom";
+import { validator } from "../../utils/validator";
+import { isRequired } from "../../utils/validateRules";
+import { data } from "autoprefixer";
 
 const UserChangeForm = ({ userId }) => {
-    const history = useHistory();
+    const { history } = useHistory();
+
+    const [error, setErrors] = useState({});
     const [user, setUser] = useState();
     const [professions, setProfessions] = useState([]);
-    const [qualities, setQualityes] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const transformData = (data) => {
-        return data.map(qual => ({ label: qual.name, value: qual._id }));
+    const [qualities, setQualityes] = useState({});
+    const [loader, setLoader] = useState(false);
+    const transformQual = (data) => {
+        return data.map(el => ({ value: el._id, label: el.name }));
     };
 
-    const getProfessionById = id => {
-        for (const prof of professions) {
-            if (prof.value === id) {
-                return {
-                    _id: prof.value,
-                    name: prof.label,
-                };
-            }
-        }
-    };
-    const getQualities = elements => {
-        const qualitiesArray = [];
-        for (const elem of elements) {
-            for (const quality in qualities) {
-                if (elem.value === qualities[quality].value) {
-                    qualitiesArray.push({
-                        _id: qualities[quality].value,
-                        name: qualities[quality].label,
-                        color: qualities[quality].color,
-                    });
-                }
-            }
-        }
-        return qualitiesArray;
-    };
+    // const getProfessionById = (id) => {
+    //     for (const prof of professions) {
+    //         if (prof.value === id) {
+    //             return { _id: prof.value, name: prof.label };
+    //         }
+    //     }
+    // };
+    // const getQualities = (elements) => {
+    //     const qualitiesArray = [];
+    //     for (const elem of elements) {
+    //         for (const quality in qualities) {
+    //             if (elem.value === qualities[quality].value) {
+    //                 qualitiesArray.push({
+    //                     _id: qualities[quality].value,
+    //                     name: qualities[quality].label,
+    //                     color: qualities[quality].color
+    //                 });
+    //             }
+    //         }
+    //     }
+    //     return qualitiesArray;
+    // };
 
     useEffect(() => {
-        setIsLoading(true);
-        api.users.getById(userId).then(({ profession, qualities, ...data }) => setUser({
-            ...data,
-            profession: profession._id,
-            qualities: transformData(qualities)
-        }));
-    }, []
-    );
-
-    useEffect(() => {
-        api.users.getByQual().then((data) => {
-            const qualitiesList = Object.keys(data).map(optionName => ({
-                value: data[optionName]._id,
-                label: data[optionName].name,
-                color: data[optionName].color
+        api.users.getById(userId).then(({ profession, qualitiies, ...data }) => {
+            setUser((prevState) => ({
+                ...prevState,
+                ...data,
+                profession: profession._id,
+                qualities: transformQual(qualitiies)
             }));
-            return setQualityes(qualitiesList);
+            setLoader(true);
         });
-    }, []);
 
-    useEffect(() => {
-        api.professions.fetchAll().then(data => {
-            const profList = Object.keys(data).map(prof => ({
-                name: profList[prof].name, value: profList[prof]._id
+        api.professions.fetchAll().then((data) => {
+            const profList = Object.keys(data).map((prof) => ({
+                value: data[prof]._id, label: data[prof].name
             }));
+
             return setProfessions(profList);
         });
+
+        api.users.getByQual().then((data) => {
+            const qualList = Object.keys(data).map((qual) => ({
+                value: data[qual]._id, label: data[qual].name, color: data[qual].color
+            }));
+            return setQualityes(qualList);
+        });
     }, []);
 
-    console.log(user);
+    const validatorConfig = {
+        email: {
+            isRequired: {
+                message: "Электронная почта обязательна для заполнения!"
+            },
+            isEmail: {
+                message: "Email введен некорректно"
+            }
+        },
+        password: {
+            isRequired: {
+                message: "Пароль обязателен для заполнения"
+            },
+            isCapital: {
+                message: "Пароль должен содержать хотя бы одну загланую букву "
+            },
+            isDigit: {
+                message: "Пароль должен содержать хотя бы одну цифру"
+            },
 
-    useEffect(() => {
-        if (user) setIsLoading(false);
-    }, [user]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const { profession, qualities } = user;
-        api.users.update(userId, {
-            ...user,
-            profession: getProfessionById(profession),
-            qualities: getQualities(qualities),
-        })
-            .then(user => history.push(`/users/${userId}`));
+            min: {
+                message: "Пароль должен содержать минимум 8 знаков",
+                value: 8
+            },
+        },
+        profession: {
+            isRequired: {
+                message: "Обязательно выбирите ваше профессию"
+            }
+        },
+        licence: {
+            isRequired: {
+                message: "Вы не можете использовать наш сервис без подтверждения лицензионного соглашения"
+            }
+        },
     };
 
+    // useEffect(() => {
+    //     validate();
+    // }, [user]);
+
+    // const validate = () => {
+    //     const errors = validator(user, validatorConfig);
+    //     setErrors(errors);
+    //     return Object.keys(errors).length === 0;
+    // };
+
     const handleChange = (target) => {
-        console.log("target", target);
         setUser((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!isRequired(user.password) || !isRequired(user.email)) return ""; // other way !!!
+    };
+    const isValid = Object.keys(error).length === 0;
+
     return (!user
         ? <LoadingSpinner/>
-        : <div className="mb-4">
+        : <>
             <form onSubmit={handleSubmit}>
                 <TextField
+                    label="name"
                     id="name"
-                    label="Имя"
                     name="name"
-                    value={user.name}
                     onChange={handleChange}
+                    value={user.name}
                 />
                 <TextField
+                    label="E-mail"
                     id="email"
-                    label="Электронная почта"
                     name="email"
-                    value={user.email}
                     onChange={handleChange}
+                    value={user.email}
+                    error={error.email}
                 />
                 <SelectField
-                    label="Выбери свою профессию"
+                    label="Выберете ваше профессию"
                     defaultOption="Choose..."
                     name="profession"
                     options={professions}
                     onChange={handleChange}
                     value={user.profession}
+                    error={error.profession}
                 />
                 <RadioField
                     options={[
@@ -138,20 +174,18 @@ const UserChangeForm = ({ userId }) => {
                 <MultiSelect
                     options={qualities}
                     onChange={handleChange}
-                    defaultValue={user.qualities }
+                    defaultValue={user.qualities}
                     name="qualities"
-                    label="Выберите ваши качества"
+                    label="Качества для вашего выбора : "
                 />
-                <button className="btn btn-primary w-100 m"
-                    onChange={handleSubmit}
-                    type="submit"
-                    role="button"
+                <button type="submit"
+                    disabled={!isValid}
+                    className="btn btn-primary w-100 m"
                 >
-                Обновить
+                    Submit
                 </button>
             </form>
-        </div>
-
+        </>
     );
 };
 
