@@ -18,9 +18,6 @@ const UserChangeForm = ({ userId }) => {
     const [professions, setProfessions] = useState([]);
     const [qualities, setQualityes] = useState({});
     const [loader, setLoader] = useState(false);
-    const transformQual = (data) => {
-        return data.map(el => ({ value: el._id, label: el.name }));
-    };
 
     // const getProfessionById = (id) => {
     //     for (const prof of professions) {
@@ -45,13 +42,17 @@ const UserChangeForm = ({ userId }) => {
     //     return qualitiesArray;
     // };
 
+    const transformQual = (data) => {
+        return data.map((el) => ({ label: el.name, value: el._id }));
+    };
+
     useEffect(() => {
-        api.users.getById(userId).then(({ profession, qualitiies, ...data }) => {
+        api.users.getById(userId).then(({ profession, qualities, ...data }) => {
             setUser((prevState) => ({
                 ...prevState,
                 ...data,
+                qualities: transformQual(qualities),
                 profession: profession._id,
-                qualities: transformQual(qualitiies)
             }));
             setLoader(true);
         });
@@ -128,64 +129,71 @@ const UserChangeForm = ({ userId }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!isRequired(user.password) || !isRequired(user.email)) return ""; // other way !!!
+        if (!isRequired(user.password) || !isRequired(user.email)) return "";
+        // const { profession, qualities } = user
+        // api.users
+        //     .update ( userId, {
+        //         ...data,
+        //         profession: getProfessionById ( profession ),
+        //         qualities: getQualities ( qualities ),
+        //     } )
+        //     .then ( data => history.push ( `/users/${data._id}` ) )
+        history.push(`/users/${user._id}`);
     };
     const isValid = Object.keys(error).length === 0;
 
-    return (!user
-        ? <LoadingSpinner/>
-        : <>
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    label="name"
-                    id="name"
-                    name="name"
-                    onChange={handleChange}
-                    value={user.name}
-                />
-                <TextField
-                    label="E-mail"
-                    id="email"
-                    name="email"
-                    onChange={handleChange}
-                    value={user.email}
-                    error={error.email}
-                />
-                <SelectField
-                    label="Выберете ваше профессию"
-                    defaultOption="Choose..."
-                    name="profession"
-                    options={professions}
-                    onChange={handleChange}
-                    value={user.profession}
-                    error={error.profession}
-                />
-                <RadioField
-                    options={[
-                        { name: "Male", value: "male" },
-                        { name: "Female", value: "female" },
-                        { name: "Other", value: "other" },
-                    ]}
-                    value={user.sex}
-                    name="sex"
-                    onChange={handleChange}
-                    label="Ваш пол : "
-                />
-                <MultiSelect
-                    options={qualities}
-                    onChange={handleChange}
-                    defaultValue={user.qualities}
-                    name="qualities"
-                    label="Качества для вашего выбора : "
-                />
-                <button type="submit"
-                    disabled={!isValid}
-                    className="btn btn-primary w-100 m"
-                >
+    return (professions && loader && <>
+        <form onSubmit={handleSubmit}>
+            <TextField
+                label="name"
+                id="name"
+                name="name"
+                onChange={handleChange}
+                value={user.name}
+            />
+            <TextField
+                label="E-mail"
+                id="email"
+                name="email"
+                onChange={handleChange}
+                value={user.email}
+                error={error.email}
+            />
+            <SelectField
+                label="Выберете ваше профессию"
+                defaultOption="Choose..."
+                name="profession"
+                options={professions}
+                onChange={handleChange}
+                value={user.profession}
+                error={error.profession}
+            />
+            <RadioField
+                options={[
+                    { name: "Male", value: "male" },
+                    { name: "Female", value: "female" },
+                    { name: "Other", value: "other" },
+                ]}
+                value={user.sex}
+                name="sex"
+                onChange={handleChange}
+                label="Ваш пол : "
+            />
+            <MultiSelect
+                options={qualities}
+                onChange={handleChange}
+                defaultValue={user.qualities}
+                name="qualities"
+                label="Качества для вашего выбора : "
+            />
+            <button type="submit"
+                disabled={!isValid}
+                className="btn btn-primary w-100 m"
+            >
                     Submit
-                </button>
-            </form>
-        </>
+            </button>
+        </form>
+    </>
     );
 };
 
