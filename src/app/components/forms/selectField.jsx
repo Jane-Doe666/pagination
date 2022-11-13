@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const SelectField = ({ label, value, onChange, defaultOption, options, error, name }) => {
+    console.log(3, "options", options);
+    console.log(4, "value", value);
+
     const getInputClasses = () => {
         return "form-select" + (error ? " is-invalid" : "");
     };

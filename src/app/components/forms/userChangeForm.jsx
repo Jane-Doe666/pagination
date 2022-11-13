@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import TextField from "./textField";
 import SelectField from "./selectField";
@@ -56,22 +57,26 @@ const UserChangeForm = ({ userId }) => {
             }));
             setLoader(true);
         });
+        console.log(user)
 
         api.professions.fetchAll().then((data) => {
             const profList = Object.keys(data).map((prof) => ({
                 value: data[prof]._id, label: data[prof].name
             }));
-
-            return setProfessions(profList);
+            console.log(1, profList)
+             setProfessions(profList);
         });
 
         api.users.getByQual().then((data) => {
             const qualList = Object.keys(data).map((qual) => ({
                 value: data[qual]._id, label: data[qual].name, color: data[qual].color
             }));
-            return setQualityes(qualList);
+             setQualityes(qualList);
         });
     }, []);
+
+    console.log(11, professions)
+    // console.log(22, qualities)
 
     const validatorConfig = {
         email: {
@@ -81,44 +86,18 @@ const UserChangeForm = ({ userId }) => {
             isEmail: {
                 message: "Email введен некорректно"
             }
-        },
-        password: {
-            isRequired: {
-                message: "Пароль обязателен для заполнения"
-            },
-            isCapital: {
-                message: "Пароль должен содержать хотя бы одну загланую букву "
-            },
-            isDigit: {
-                message: "Пароль должен содержать хотя бы одну цифру"
-            },
-
-            min: {
-                message: "Пароль должен содержать минимум 8 знаков",
-                value: 8
-            },
-        },
-        profession: {
-            isRequired: {
-                message: "Обязательно выбирите ваше профессию"
-            }
-        },
-        licence: {
-            isRequired: {
-                message: "Вы не можете использовать наш сервис без подтверждения лицензионного соглашения"
-            }
-        },
+        }
     };
 
-    // useEffect(() => {
-    //     validate();
-    // }, [user]);
+    useEffect(() => {
+        validate();
+    }, [user]);
 
-    // const validate = () => {
-    //     const errors = validator(user, validatorConfig);
-    //     setErrors(errors);
-    //     return Object.keys(errors).length === 0;
-    // };
+    const validate = () => {
+        const errors = validator(user, validatorConfig);
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
 
     const handleChange = (target) => {
         setUser((prevState) => ({
@@ -126,23 +105,25 @@ const UserChangeForm = ({ userId }) => {
             [target.name]: target.value
         }));
     };
+    // console.log(444, user.profession)
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!isRequired(user.password) || !isRequired(user.email)) return "";
-        // const { profession, qualities } = user
-        // api.users
-        //     .update ( userId, {
-        //         ...data,
-        //         profession: getProfessionById ( profession ),
-        //         qualities: getQualities ( qualities ),
-        //     } )
-        //     .then ( data => history.push ( `/users/${data._id}` ) )
+        const { profession, qualities } = user
+        api.users
+            .update ( userId, {
+                ...data,
+                profession: getProfessionById ( profession ),
+                qualities: getQualities ( qualities ),
+            } )
+            .then ( data => history.push ( `/users/${data._id}` ) )
         history.push(`/users/${user._id}`);
     };
     const isValid = Object.keys(error).length === 0;
 
-    return (professions && loader && <>
+    return (professions.length > 0 && loader && <>
         <form onSubmit={handleSubmit}>
             <TextField
                 label="name"
@@ -166,7 +147,6 @@ const UserChangeForm = ({ userId }) => {
                 options={professions}
                 onChange={handleChange}
                 value={user.profession}
-                error={error.profession}
             />
             <RadioField
                 options={[
