@@ -17,31 +17,34 @@ const UserChangeForm = ({ userId }) => {
     const [error, setErrors] = useState({});
     const [user, setUser] = useState();
     const [professions, setProfessions] = useState([]);
-    const [qualities, setQualityes] = useState({});
+    const [qualities, setQualityes] = useState([]);
     const [loader, setLoader] = useState(false);
+    const isValid = Object.keys(error).length === 0;
 
-    // const getProfessionById = (id) => {
-    //     for (const prof of professions) {
-    //         if (prof.value === id) {
-    //             return { _id: prof.value, name: prof.label };
-    //         }
-    //     }
-    // };
-    // const getQualities = (elements) => {
-    //     const qualitiesArray = [];
-    //     for (const elem of elements) {
-    //         for (const quality in qualities) {
-    //             if (elem.value === qualities[quality].value) {
-    //                 qualitiesArray.push({
-    //                     _id: qualities[quality].value,
-    //                     name: qualities[quality].label,
-    //                     color: qualities[quality].color
-    //                 });
-    //             }
-    //         }
-    //     }
-    //     return qualitiesArray;
-    // };
+    const getProfessionById = (id) => {
+        for (const prof of professions) {
+            if (prof.value === id) {
+                return { _id: prof.value, name: prof.label };
+            }
+        }
+    };
+
+    const getQualities = (elements) => {
+        console.log(666, elements)
+        const qualitiesArray = [];
+        for (const elem of elements) {
+            for (const quality in qualities) {
+                if (elem.value === qualities[quality].value) {
+                    qualitiesArray.push({
+                        _id: qualities[quality].value,
+                        name: qualities[quality].label,
+                        color: qualities[quality].color
+                    });
+                }
+            }
+        }
+        return qualitiesArray;
+    };
 
     const transformQual = (data) => {
         return data.map((el) => ({ label: el.name, value: el._id }));
@@ -57,13 +60,11 @@ const UserChangeForm = ({ userId }) => {
             }));
             setLoader(true);
         });
-        console.log(user)
 
         api.professions.fetchAll().then((data) => {
             const profList = Object.keys(data).map((prof) => ({
                 value: data[prof]._id, label: data[prof].name
             }));
-            console.log(1, profList)
              setProfessions(profList);
         });
 
@@ -75,8 +76,6 @@ const UserChangeForm = ({ userId }) => {
         });
     }, []);
 
-    console.log(11, professions)
-    // console.log(22, qualities)
 
     const validatorConfig = {
         email: {
@@ -105,23 +104,29 @@ const UserChangeForm = ({ userId }) => {
             [target.name]: target.value
         }));
     };
-    // console.log(444, user.profession)
-
 
     const handleSubmit = (e) => {
+        console.log(e)
         e.preventDefault();
-        if (!isRequired(user.password) || !isRequired(user.email)) return "";
+        // if (!isRequired(user.email)) return "";
         const { profession, qualities } = user
+        console.log(user)
         api.users
             .update ( userId, {
                 ...data,
                 profession: getProfessionById ( profession ),
                 qualities: getQualities ( qualities ),
             } )
-            .then ( data => history.push ( `/users/${data._id}` ) )
-        history.push(`/users/${user._id}`);
+            .then ( (data) => history.push ( `/users/${data._id}` ) )
+
+        console.log (1, {
+            ...data,
+            profession: getProfessionById ( profession ),
+            qualities: getQualities ( qualities ),      // qualities не меняются
+        } )
     };
-    const isValid = Object.keys(error).length === 0;
+
+
 
     return (professions.length > 0 && loader && <>
         <form onSubmit={handleSubmit}>

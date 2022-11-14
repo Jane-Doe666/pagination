@@ -2,9 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const SelectField = ({ label, value, onChange, defaultOption, options, error, name }) => {
-    console.log(3, "options", options);
-    console.log(4, "value", value);
-
     const getInputClasses = () => {
         return "form-select" + (error ? " is-invalid" : "");
     };
@@ -12,7 +9,7 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map(item =>
             ({ name: options[item].name, value: options[item]._id }))
-        : options;
+        : options.map((item) => ({ name: item.label, value: item.value }));
 
     return (
         <div className="mb-4">
