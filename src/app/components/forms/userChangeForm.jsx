@@ -12,7 +12,7 @@ import { isRequired } from "../../utils/validateRules";
 import { data } from "autoprefixer";
 
 const UserChangeForm = ({ userId }) => {
-    const { history } = useHistory();
+    const history  = useHistory();
 
     const [error, setErrors] = useState({});
     const [user, setUser] = useState();
@@ -108,7 +108,7 @@ const UserChangeForm = ({ userId }) => {
     const handleSubmit = (e) => {
         console.log(e)
         e.preventDefault();
-        // if (!isRequired(user.email)) return "";
+        if (!isRequired(user.email)) return "";
         const { profession, qualities } = user
         console.log(user)
         api.users
@@ -122,11 +122,9 @@ const UserChangeForm = ({ userId }) => {
         console.log (1, {
             ...data,
             profession: getProfessionById ( profession ),
-            qualities: getQualities ( qualities ),      // qualities не меняются
+            qualities: getQualities ( qualities ),
         } )
     };
-
-
 
     return (professions.length > 0 && loader && <>
         <form onSubmit={handleSubmit}>
