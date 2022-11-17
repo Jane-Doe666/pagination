@@ -9,7 +9,10 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map(item =>
             ({ name: options[item].name, value: options[item]._id }))
-        : options.map((item) => ({ name: item.label, value: item.value }));
+        : options.map((item) => ({
+            name: item.label ? item.label : item.name,
+            value: item.value ? item.value : item._id
+        }));
 
     return (
         <div className="mb-4">

@@ -10,6 +10,7 @@ const MultiSelect = ({ options, onChange, name, label, defaultValue }) => {
                 value: options[optionName]._id
             }))
             : options;
+
     const handleChange = (value) => {
         onChange({ name, value });
     };

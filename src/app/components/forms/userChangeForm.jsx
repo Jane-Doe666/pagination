@@ -4,7 +4,6 @@ import TextField from "./textField";
 import SelectField from "./selectField";
 import MultiSelect from "./multiSelect";
 import api from "../../../api";
-import LoadingSpinner from "../common/loadingSpinner";
 import RadioField from "./radioField";
 import { useHistory } from "react-router-dom";
 import { validator } from "../../utils/validator";
