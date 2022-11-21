@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 const initialData = { userId: "", content: "" };
 
 const AddCommentForm = ({ onSubmit }) => {
-    console.log(1, onSubmit)
     const [data, setData] = useState(initialData);
     const [users, setUsers] = useState({});
     const [errors, setErrors] = useState({});
@@ -18,8 +17,6 @@ const AddCommentForm = ({ onSubmit }) => {
             [target.name]: target.value
         }));
     };
-
-
 
     const validatorConfig = {
         userId: {

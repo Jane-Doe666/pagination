@@ -18,7 +18,6 @@ const Comment = ({
             setIsLoading(false);
         });
     }, []);
-    console.log(111, userId);
 
     return (
         <div className="bg-light card-body  mb-3">

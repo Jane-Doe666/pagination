@@ -18,7 +18,6 @@ const Comments = () => {
             .add({ ...data, pageId: userId })
             .then((data) => setComments([...comments, data]));
     };
-    console.log(11, "sdg");
 
     const handleRemoveComment = (id) => {
         api.comments.remove(id).then((id) => {

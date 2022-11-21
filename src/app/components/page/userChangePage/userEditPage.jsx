@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import TextField from "../../forms/textField";
 import SelectField from "../../forms/selectField";
@@ -8,7 +7,6 @@ import RadioField from "../../forms/radioField";
 import { useHistory } from "react-router-dom";
 import { validator } from "../../../utils/validator";
 import { isRequired } from "../../../utils/validateRules";
-import { data } from "autoprefixer";
 import BackHistoryButton from "../../common/backButton";
 
 const UserEditPage = ({ userId }) => {
@@ -28,7 +26,7 @@ const UserEditPage = ({ userId }) => {
     };
 
     const getQualities = (elements) => {
-        console.log(666, elements)
+        console.log(666, elements);
         const qualitiesArray = [];
         for (const elem of elements) {
             for (const quality in qualities) {
@@ -45,24 +43,23 @@ const UserEditPage = ({ userId }) => {
     };
 
     const handleSubmit = (e) => {
-        console.log(e)
         e.preventDefault();
         if (!isRequired(user.email)) return "";
-        const { profession, qualities } = user
-        console.log(user)
+        const { profession, qualities } = user;
+        console.log(user);
         api.users
             .update(userId, {
-                ...data,
+                ...user,
                 profession: getProfessionById(profession),
                 qualities: getQualities(qualities),
             })
-            .then((data) => history.push(`/users/${data._id}`))
+            .then((data) => history.push(`/users/${data._id}`));
 
         console.log(1, {
-            ...data,
+            user,
             profession: getProfessionById(profession),
             qualities: getQualities(qualities),
-        })
+        });
     };
 
     const transformQual = (data) => {
@@ -94,7 +91,6 @@ const UserEditPage = ({ userId }) => {
             setQualityes(qualList);
         });
     }, []);
-
 
     const validatorConfig = {
         email: {
@@ -175,8 +171,8 @@ const UserEditPage = ({ userId }) => {
                                 label="Качества для вашего выбора : "
                             />
                             <button type="submit"
-                                    disabled={!isValid}
-                                    className="btn btn-primary w-100 m"
+                                disabled={!isValid}
+                                className="btn btn-primary w-100 m"
                             >
                                 Submit
                             </button>
