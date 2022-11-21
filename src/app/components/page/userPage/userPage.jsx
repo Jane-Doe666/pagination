@@ -4,8 +4,7 @@ import LoadingSpinner from "../../common/loadingSpinner";
 import UserCard from "../../ui/userCard";
 import QualitiesCard from "../../ui/qualitiesCard";
 import MeetingsCard from "../../ui/meetingsCard";
-import NewCommetCard from "../../ui/newCommetCard";
-import CommentsCard from "../../ui/commentsCard";
+import Comments from "../../common/comments/comments";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
@@ -24,8 +23,7 @@ const UserPage = ({ userId }) => {
                         <MeetingsCard user={user}/>
                     </div>
                     <div className="col-md-8">
-                        <NewCommetCard/>
-                        <CommentsCard/>
+                        <Comments/>
                     </div>
                 </div>
             </div>
